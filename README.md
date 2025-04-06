@@ -1,6 +1,6 @@
-<h2 align="center">Car Rental Booking System Web App</h2>
+<h2>Car Rental Booking System Web App</h2>
 
-<p align="center">
+<p>
 A web-based application built with Laravel for managing and booking company vehicles. It allows users to request car usage, administrators to manage requests and assign vehicles, and operators to monitor operations — all with proper role-based access control.
 </p>
 
