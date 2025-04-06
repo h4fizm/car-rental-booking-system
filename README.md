@@ -29,6 +29,14 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+## Laravel Breeze
+
+This project uses **[Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze)** for simple and minimal authentication features such as login, registration, password reset, and email verification. Breeze offers a great starting point for building a modern Laravel application with authentication out of the box.
+
+## Spatie Laravel Permission
+
+We also use **[Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)** to manage roles and permissions. This package allows assignment of roles (such as `admin`, `operator`, and `user`) and fine-grained permission control over what users can do in the application, making access control easy and powerful.
+
 ## Laravel Sponsors
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
