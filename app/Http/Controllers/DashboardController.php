@@ -12,7 +12,7 @@ class DashboardController extends Controller
     }
     public function adminDashboard()
     {
-        echo "<h1>Halaman Admin Dashboard</h1>";
+        return view('menu.dashboard');
     }
 
     public function operatorDashboard()
