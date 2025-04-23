@@ -111,9 +111,9 @@ Route::middleware(['auth', 'verified', 'role:operator'])->group(function () {
         ->name('operator.profile.update');
 });
 
-
+// First Link
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login'); // Asumsinya file login.blade.php berada di resources/views/auth/
 });
 
 Route::get('/dashboard', function () {
