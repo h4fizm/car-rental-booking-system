@@ -2,22 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        echo "<h1>Halaman User Dashboard</h1>";
-    }
     public function adminDashboard()
     {
-        return view('menu.dashboard');
+        // Menghitung jumlah user berdasarkan role
+        $totalUsers = User::count();
+        $totalAdmins = User::role('admin')->count();
+        $totalUsersRole = User::role('user')->count();
+        $totalOperators = User::role('operator')->count();
+
+        // Kirim data ke view
+        return view('menu.dashboard', compact(
+            'totalUsers',
+            'totalAdmins',
+            'totalUsersRole',
+            'totalOperators'
+        ));
     }
 
     public function operatorDashboard()
     {
-        echo "<h1>Halaman Operator Dashboard</h1>";
-    }
+        // Menghitung jumlah user berdasarkan role
+        $totalUsers = User::count();
+        $totalAdmins = User::role('admin')->count();
+        $totalUsersRole = User::role('user')->count();
+        $totalOperators = User::role('operator')->count();
 
+        // Kirim data ke view
+        return view('menu.dashboard', compact(
+            'totalUsers',
+            'totalAdmins',
+            'totalUsersRole',
+            'totalOperators'
+        ));
+    }
 }
+

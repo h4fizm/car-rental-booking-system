@@ -42,14 +42,23 @@
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Manajemen User
-                </a>
+                @if(auth()->user()->hasRole('admin'))
+                    {{-- Manajemen User --}}
+                    <a class="nav-link" href="{{ route('admin.users.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user-group"></i></div>
+                        Manajemen User
+                    </a>
+                @endif
                 <!-- Profil -->
                 <a class="nav-link" href="{{ route('profile.edit') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                    Profil
+                    @if(auth()->user()->hasRole('admin'))
+                        Profil Admin
+                    @elseif(auth()->user()->hasRole('user'))
+                        Profil User
+                    @elseif(auth()->user()->hasRole('operator'))
+                        Profil Operator
+                    @endif
                 </a>
             </div>
         </div>
