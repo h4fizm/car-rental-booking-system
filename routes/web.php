@@ -52,32 +52,27 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
 
-    Route::resource('/admin/cars', CarController::class)
-        ->middleware('permission:manage all cars');
+    // Route untuk Profile Admin
+    Route::prefix('admin/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])
+            ->middleware('permission:edit own profile')
+            ->name('admin.profile.edit');
 
-    Route::get('/admin/monitoring', [CarController::class, 'monitor'])
-        ->middleware('permission:monitor cars')
-        ->name('cars.monitor');
+        Route::patch('/', [ProfileController::class, 'update'])
+            ->middleware('permission:edit own profile')
+            ->name('admin.profile.update');
 
-    Route::resource('/admin/bookings', BookingController::class)
-        ->middleware('permission:manage all bookings');
+        Route::delete('/', [ProfileController::class, 'destroy'])
+            ->middleware('permission:edit own profile')
+            ->name('admin.profile.destroy');
+    });
 
-    Route::post('/admin/bookings/{booking}/approve', [BookingController::class, 'approve'])
-        ->middleware('permission:approve booking')
-        ->name('bookings.approve');
-
-    Route::post('/admin/bookings/{booking}/reject', [BookingController::class, 'reject'])
-        ->middleware('permission:reject booking')
-        ->name('bookings.reject');
-
-    Route::get('/admin/booking-history', [BookingController::class, 'allHistory'])
-        ->middleware('permission:view all booking history')
-        ->name('bookings.history');
-
-    Route::resource('/admin/users', UserController::class)->middleware([
-        'permission:view users|create users|edit users|delete users'
-    ]);
+    // Route untuk mengelola Users
+    Route::get('/admin/users', [ProfileController::class, 'index'])
+        ->middleware('permission:view users|create users|edit users|delete users')
+        ->name('admin.users.index');
 });
+
 
 
 // === ROUTE UNTUK OPERATOR ===
@@ -86,36 +81,29 @@ Route::middleware(['auth', 'verified', 'role:operator'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('operator.dashboard');
 
-    Route::get('/operator/monitoring', [CarController::class, 'monitorOngoing'])
-        ->middleware('permission:monitor ongoing cars')
-        ->name('operator.cars.monitor');
+    // Route untuk Profile Operator
+    Route::prefix('operator/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])
+            ->middleware('permission:edit own profile')
+            ->name('operator.profile.edit');
 
-    Route::resource('/operator/bookings', BookingController::class)
-        ->except(['create', 'store'])
-        ->middleware('permission:manage bookings');
+        Route::patch('/', [ProfileController::class, 'update'])
+            ->middleware('permission:edit own profile')
+            ->name('operator.profile.update');
 
-    Route::post('/operator/bookings/{booking}/approve', [BookingController::class, 'approve'])
-        ->middleware('permission:approve booking')
-        ->name('operator.bookings.approve');
-
-    Route::post('/operator/bookings/{booking}/reject', [BookingController::class, 'reject'])
-        ->middleware('permission:reject booking')
-        ->name('operator.bookings.reject');
-
-    Route::get('/profile', [UserController::class, 'editOwn'])
-        ->middleware('permission:edit own profile')
-        ->name('operator.profile.edit');
-
-    Route::patch('/profile', [UserController::class, 'updateOwn'])
-        ->middleware('permission:edit own profile')
-        ->name('operator.profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])
+            ->middleware('permission:edit own profile')
+            ->name('operator.profile.destroy');
+    });
 });
+
 
 // First Link
 Route::get('/', function () {
-    return view('auth.login'); // Asumsinya file login.blade.php berada di resources/views/auth/
+    return view('auth.login');
 });
 
+// SEMENTARA JANGAN DIHAPUS
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -125,5 +113,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// SAMPAI INI
 
 require __DIR__ . '/auth.php';

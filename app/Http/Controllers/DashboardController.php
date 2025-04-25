@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        echo "<h1>Halaman User Dashboard</h1>";
-    }
+
     public function adminDashboard()
     {
         return view('menu.dashboard');
@@ -17,7 +14,7 @@ class DashboardController extends Controller
 
     public function operatorDashboard()
     {
-        echo "<h1>Halaman Operator Dashboard</h1>";
+        return view('menu.dashboard');
     }
 
 }
