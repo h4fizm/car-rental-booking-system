@@ -20,14 +20,16 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-
-                
                 <div class="sb-sidenav-menu-heading">Informasi</div>
-                <!-- Daftar Mobil Rental -->
-                <a class="nav-link" href="">
-                    <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
-                    Daftar Mobil Rental
-                </a>
+                
+               <!-- Daftar Mobil Rental -->
+                @role('admin')
+                    <a class="nav-link" href="{{ route('admin.cars.index') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
+                        Daftar Mobil Rental
+                    </a>
+                @endrole
+                
                 <!-- Daftar Pesanan User -->
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePesanan" aria-expanded="false" aria-controls="collapsePesanan">
                     <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>

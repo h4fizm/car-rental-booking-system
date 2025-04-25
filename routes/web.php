@@ -54,6 +54,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
 
+    // Route untuk halaman daftar mobil (khusus admin)
+    Route::get('/admin/cars', [CarController::class, 'index'])
+        ->middleware('permission:monitor cars|manage all cars')
+        ->name('admin.cars.index');
+
     // Route untuk Profile Admin
     Route::prefix('admin/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])
