@@ -11,12 +11,6 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function index()
-    {
-        // Mengembalikan tampilan table-user.blade.php
-        return view('menu.table-user');
-    }
-
     /**
      * Display the user's profile form.
      */

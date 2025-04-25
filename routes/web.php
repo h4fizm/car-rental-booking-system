@@ -48,6 +48,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // === ROUTE UNTUK ADMIN ===
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+
+    // Dashboard Admin
     Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
@@ -68,11 +70,38 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     });
 
     // Route untuk mengelola Users
-    Route::get('/admin/users', [ProfileController::class, 'index'])
-        ->middleware('permission:view users|create users|edit users|delete users')
-        ->name('admin.users.index');
-});
+    Route::prefix('admin/users')->group(function () {
+        // Menampilkan daftar user
+        Route::get('/', [UserController::class, 'index'])
+            ->middleware('permission:view users|create users|edit users|delete users')
+            ->name('admin.users.index');
 
+        // Menampilkan form tambah user
+        Route::get('/create', [UserController::class, 'create'])
+            ->middleware('permission:create users')
+            ->name('admin.users.create');
+
+        // Menyimpan user baru
+        Route::post('/', [UserController::class, 'store'])
+            ->middleware('permission:create users')
+            ->name('admin.users.store');
+
+        // Menampilkan form edit user
+        Route::get('/{user}/edit', [UserController::class, 'edit'])
+            ->middleware('permission:edit users')
+            ->name('admin.users.edit');
+
+        // Menyimpan perubahan user
+        Route::put('/{user}', [UserController::class, 'update'])
+            ->middleware('permission:edit users')
+            ->name('admin.users.update');
+
+        // Menghapus user
+        Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])
+            ->middleware('permission:delete users')
+            ->name('admin.users.destroy');
+    });
+});
 
 
 // === ROUTE UNTUK OPERATOR ===
