@@ -54,10 +54,17 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
 
-    // Route untuk halaman daftar mobil (khusus admin)
-    Route::get('/admin/cars', [CarController::class, 'index'])
-        ->middleware('permission:monitor cars|manage all cars')
-        ->name('admin.cars.index');
+    Route::prefix('admin')->group(function () {
+        // Halaman daftar mobil (khusus admin)
+        Route::get('/cars', [CarController::class, 'index'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.index');
+
+        // Menampilkan form tambah mobil (khusus admin)
+        Route::get('/create-car', [CarController::class, 'create'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.create');
+    });
 
     // Route untuk Profile Admin
     Route::prefix('admin/profile')->group(function () {

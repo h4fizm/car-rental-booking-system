@@ -13,7 +13,7 @@
                 <div>
                     <i class="fas fa-car me-1"></i> Data Mobil
                 </div>
-                <a href="" class="btn btn-primary btn-sm">
+                <a href="{{ route('admin.cars.create') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus me-1"></i> Tambah Mobil
                 </a>
             </div>
@@ -24,24 +24,14 @@
                             <th style="width: 5%; text-align: center;">No</th>
                             <th>Tipe Mobil</th>
                             <th style="width: 15%; text-align: center;">Kategori Mobil</th>
-                            <th style="width: 10%; text-align: center;">Unit</th>
+                            <th style="width: 20%; text-align: center;">Tanggal Peminjaman</th>
+                            <th style="width: 10%; text-align: center;">Status</th>
                             <th style="width: 25%; text-align: center;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
-                            $cars = [
-                                ['tipe' => 'Toyota Fortuner', 'kategori' => 'SUV', 'unit' => 3],
-                                ['tipe' => 'Honda Civic', 'kategori' => 'Sedan', 'unit' => 2],
-                                ['tipe' => 'Mitsubishi Triton', 'kategori' => 'Pickup', 'unit' => 4],
-                                ['tipe' => 'Toyota Alphard', 'kategori' => 'Minivan', 'unit' => 1],
-                                ['tipe' => 'Isuzu Giga Box', 'kategori' => 'TruckBox', 'unit' => 2],
-                                ['tipe' => 'Hyundai Ioniq 5', 'kategori' => 'Mobil Listrik', 'unit' => 3],
-                                ['tipe' => 'Lamborghini Huracan', 'kategori' => 'Sport', 'unit' => 1],
-                                ['tipe' => 'Mercedes-Benz S-Class', 'kategori' => 'Luxury', 'unit' => 2],
-                            ];
-
-                            $badgeColors = [
+                            $badgeColorsKategori = [
                                 'SUV' => 'bg-success',
                                 'Sedan' => 'bg-primary',
                                 'Pickup' => 'bg-warning text-dark',
@@ -51,18 +41,47 @@
                                 'Sport' => 'bg-danger',
                                 'Luxury' => 'bg-dark',
                             ];
+
+                            $badgeColorsStatus = [
+                                'accept' => 'bg-success',
+                                'pending' => 'bg-warning text-dark',
+                                'cancel' => 'bg-secondary',
+                                'reject' => 'bg-danger',
+                                'finish' => 'bg-primary',
+                                null => 'bg-muted', // Status null berarti belum ada peminjaman
+                            ];
                         @endphp
 
                         @foreach ($cars as $index => $car)
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
-                                <td>{{ $car['tipe'] }}</td>
+                                <td>{{ $car->name }}</td>
                                 <td class="text-center">
-                                    <span class="badge {{ $badgeColors[$car['kategori']] ?? 'bg-secondary' }}">
-                                        {{ $car['kategori'] }}
+                                    <span class="badge {{ $badgeColorsKategori[$car->type->name] ?? 'bg-secondary' }}">
+                                        {{ $car->type->name }}
                                     </span>
                                 </td>
-                                <td class="text-center">{{ $car['unit'] }}</td>
+                                <td class="text-center">
+                                    @if ($car->start_rental && $car->end_rental)
+                                        {{ \Carbon\Carbon::parse($car->start_rental)->locale('id')->isoFormat('dddd, D MMMM') }} – 
+                                        {{ \Carbon\Carbon::parse($car->end_rental)->locale('id')->isoFormat('dddd, D MMMM') }}
+                                    @else
+                                        <span class="text-dark">Belum ada peminjaman</span> <!-- Mengubah teks menjadi hitam -->
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+                                    <span class="badge 
+                                        @if ($car->status)
+                                            {{ $badgeColorsStatus[$car->status] ?? 'bg-muted' }}
+                                        @else
+                                            bg-success text-white  <!-- Menambahkan kelas hitam untuk status null -->
+                                        @endif
+                                    ">
+                                        {{ ucfirst($car->status ?? 'Tersedia') }}
+                                    </span>
+                                </td>
+
                                 <td class="text-center">
                                     <a href="#" class="btn btn-sm btn-info">Preview</a>
                                     <a href="#" class="btn btn-sm btn-warning">Edit</a>

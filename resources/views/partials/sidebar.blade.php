@@ -38,11 +38,14 @@
                 </a>
                 <div class="collapse" id="collapsePesanan" aria-labelledby="headingPesanan" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="">Status Diterima</a>
-                        <a class="nav-link" href="">Status Pending</a>
-                        <a class="nav-link" href="">Status Cancel</a>
+                        <a class="nav-link" href="">Status Diterima</a> <!-- Accept -->
+                        <a class="nav-link" href="">Status Pending</a>  <!-- Pending -->
+                        <a class="nav-link" href="">Status Cancel</a>   <!-- Cancel -->
+                        <a class="nav-link" href="">Status Ditolak</a>  <!-- Reject -->
+                        <a class="nav-link" href="">Status Selesai</a>  <!-- Finish -->
                     </nav>
                 </div>
+
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
                 @if(auth()->user()->hasRole('admin'))
                     {{-- Manajemen User --}}
@@ -51,6 +54,7 @@
                         Manajemen User
                     </a>
                 @endif
+                
                 <!-- Profil -->
                 <a class="nav-link" href="{{ route('profile.edit') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
