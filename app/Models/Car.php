@@ -12,10 +12,14 @@ class Car extends Model
 
     protected $fillable = [
         'name',
-        'status',
+        'price',
+        'description',
+        'photo',
         'type_id',
-        'description', // Menambahkan kolom description jika diperlukan
+        'status',
+
     ];
+
 
     protected $casts = [
         'start_rental' => 'datetime',

@@ -54,16 +54,37 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
 
+    // Manage Car
     Route::prefix('admin')->group(function () {
-        // Halaman daftar mobil (khusus admin)
         Route::get('/cars', [CarController::class, 'index'])
             ->middleware(['permission:monitor cars|manage all cars'])
             ->name('admin.cars.index');
 
-        // Menampilkan form tambah mobil (khusus admin)
         Route::get('/create-car', [CarController::class, 'create'])
             ->middleware(['permission:monitor cars|manage all cars'])
             ->name('admin.cars.create');
+
+        Route::post('/create-car', [CarController::class, 'store'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.store');
+
+        // Route Edit & Update
+        Route::get('/cars/{id}/edit', [CarController::class, 'edit'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.edit');
+
+        Route::put('/cars/{id}', [CarController::class, 'update'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.update');
+
+        Route::delete('/cars/{id}', [CarController::class, 'destroy'])
+            ->middleware(['permission:monitor cars|manage all cars'])
+            ->name('admin.cars.destroy');
+
+        // Preview Cars 
+        Route::get('/cars/{id}/preview', [CarController::class, 'preview'])
+            ->middleware(['permission:monitor cars'])
+            ->name('admin.cars.preview');
     });
 
     // Route untuk Profile Admin

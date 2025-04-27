@@ -83,13 +83,15 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-sm btn-info">Preview</a>
-                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="#" method="POST" style="display: inline;">
+                                    <a href="{{ route('admin.cars.preview', $car->id) }}" class="btn btn-sm btn-info">Preview</a>
+                                    <a href="{{ route('admin.cars.edit', $car->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{ route('admin.cars.destroy', $car->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Yakin ingin menghapus data mobil ini?')">Hapus</button>
+                                            onclick="return confirm('Yakin ingin menghapus data mobil ini?')">
+                                            Hapus
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

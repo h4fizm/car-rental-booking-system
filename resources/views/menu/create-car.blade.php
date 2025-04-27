@@ -14,9 +14,8 @@
                 <i class="fas fa-car me-1"></i> Form Tambah Mobil
             </div>
             <div class="card-body">
-                <form action="#" method="POST" enctype="multipart/form-data">
+               <form action="{{ route('admin.cars.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
                     {{-- Nama Mobil --}}
                     <div class="mb-3">
                         <label for="nama_mobil" class="form-label">Nama Mobil</label>
