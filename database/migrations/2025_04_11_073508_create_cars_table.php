@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,14 +12,18 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->dateTime('start_rental');
-            $table->dateTime('end_rental');
-            $table->enum("status",["accept", "cancel", "reject", "pending", "finish"]);
-            $table->unsignedBigInteger('type_id');
+            $table->string('name'); // Nama mobil
+            $table->dateTime('start_rental')->nullable(); // Boleh kosong kalau belum disewa
+            $table->dateTime('end_rental')->nullable();   // Boleh kosong juga
+            $table->enum('status', ['accept', 'cancel', 'reject', 'pending', 'finish'])->nullable(); // Status bisa kosong
+            $table->unsignedBigInteger('type_id'); // Relasi ke tabel cars_types
             $table->foreign('type_id')->references('id')->on('cars_types')->onDelete('cascade');
+            $table->integer('price'); // Harga sewa per hari
+            $table->text('description')->nullable(); // Deskripsi mobil, boleh kosong
+            $table->binary('photo')->nullable(); // Menyimpan gambar sebagai binary (BLOB)
             $table->timestamps();
         });
+
     }
 
     /**

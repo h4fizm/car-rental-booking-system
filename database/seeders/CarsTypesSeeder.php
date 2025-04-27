@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CarsType;
 
@@ -13,7 +12,16 @@ class CarsTypesSeeder extends Seeder
      */
     public function run()
     {
-        $types = ['SUV', 'Sedan', 'Hatchback', 'Pickup'];
+        $types = [
+            'SUV',
+            'Sedan',
+            'Pickup',
+            'Minivan',
+            'TruckBox',
+            'Mobil Listrik',
+            'Sport',
+            'Luxury'
+        ];
 
         foreach ($types as $type) {
             CarsType::create([

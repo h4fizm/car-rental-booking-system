@@ -2,76 +2,120 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
+use App\Models\CarsType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
-    // Halaman informasi mobil yang tersedia (untuk admin & user)
-    public function availableCars()
-    {
-        echo "<h1>📅 Halaman Car</h1>";
-        echo "<p>Ini adalah halaman untuk melakukan Informasi Car. Untuk role admin dan user saja</p>";
-    }
-
-    // ========================
-    // CRUD Mobil (Admin Only)
-    // ========================
-
-    // Menampilkan semua mobil
     public function index()
     {
-        echo "<h1>🚗 Daftar Semua Mobil</h1>";
+        $cars = Car::with('type')->get();
+        return view('menu.table-car', compact('cars'));
     }
 
-    // Form tambah mobil
     public function create()
     {
-        echo "<h1>➕ Form Tambah Mobil</h1>";
+        return view('menu.create-car');
     }
 
-    // Simpan mobil baru
     public function store(Request $request)
     {
-        echo "<h1>📥 Simpan Mobil Baru</h1>";
-    }
+        // Validasi inputan
+        $validated = $request->validate([
+            'nama_mobil' => 'required|string|max:255',
+            'kategori_mobil' => 'required|string|max:255',
+            'harga_sewa' => 'required|numeric|min:0',
+            'deskripsi' => 'required|string|max:300',
+            'foto_mobil' => 'required|image|mimes:jpeg,png,jpg|max:2048', // max 2MB
+        ]);
 
-    // Tampilkan detail mobil
-    public function show($id)
-    {
-        echo "<h1>🔍 Detail Mobil ID: {$id}</h1>";
-    }
+        // Simpan foto mobil
+        $path = $request->file('foto_mobil')->store('cars', 'public');
 
-    // Form edit mobil
+        // Cari ID kategori mobil (type_id) dari tabel cars_types
+        $type = CarsType::where('name', $validated['kategori_mobil'])->first();
+        if (!$type) {
+            return redirect()->back()->with('error', 'Kategori mobil tidak ditemukan.');
+        }
+
+        // Simpan data mobil
+        Car::create([
+            'name' => $validated['nama_mobil'],
+            'price' => $validated['harga_sewa'],
+            'description' => $validated['deskripsi'],
+            'photo' => $path,
+            'type_id' => $type->id,
+            'status' => null,
+            'start_rental' => null,
+            'end_rental' => null,
+        ]);
+
+        return redirect()->route('admin.cars.index')->with('success', 'Data mobil berhasil ditambahkan.');
+    }
     public function edit($id)
     {
-        echo "<h1>✏️ Form Edit Mobil ID: {$id}</h1>";
+        $car = Car::findOrFail($id);
+        return view('menu.edit-car', compact('car'));
     }
 
-    // Update data mobil
     public function update(Request $request, $id)
     {
-        echo "<h1>♻️ Update Mobil ID: {$id}</h1>";
-    }
+        $car = Car::findOrFail($id);
 
-    // Hapus mobil
+        // Validasi inputan
+        $validated = $request->validate([
+            'nama_mobil' => 'required|string|max:255',
+            'kategori_mobil' => 'required|string|max:255',
+            'harga_sewa' => 'required|numeric|min:0',
+            'deskripsi' => 'required|string|max:300',
+            'foto_mobil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Update foto mobil jika ada file baru
+        if ($request->hasFile('foto_mobil')) {
+            if ($car->photo) {
+                Storage::disk('public')->delete($car->photo);
+            }
+            $path = $request->file('foto_mobil')->store('cars', 'public');
+            $car->photo = $path;
+        }
+
+        // Cari ID kategori
+        $type = CarsType::where('name', $validated['kategori_mobil'])->first();
+        if (!$type) {
+            return redirect()->back()->with('error', 'Kategori mobil tidak ditemukan.');
+        }
+
+        // Update data mobil
+        $car->name = $validated['nama_mobil'];
+        $car->price = $validated['harga_sewa'];
+        $car->description = $validated['deskripsi'];
+        $car->type_id = $type->id;
+        $car->save();
+
+        return redirect()->route('admin.cars.index')->with('success', 'Data mobil berhasil diperbarui.');
+    }
     public function destroy($id)
     {
-        echo "<h1>🗑️ Hapus Mobil ID: {$id}</h1>";
-    }
+        $car = Car::findOrFail($id);
 
-    // Monitoring mobil berjalan (Admin Only)
-    public function monitor()
+        // Hapus foto dari storage
+        if ($car->photo) {
+            Storage::disk('public')->delete($car->photo);
+        }
+
+        // Hapus data mobil dari database
+        $car->delete();
+
+        return redirect()->route('admin.cars.index')->with('success', 'Data mobil berhasil dihapus.');
+    }
+    public function preview($id)
     {
-        echo "<h1>📡 Monitoring Mobil Berjalan</h1>";
+        $car = Car::with('type')->findOrFail($id);
+
+        return view('menu.preview-car', compact('car'));
     }
 
-    // ========================
-    // CRUD Mobil (Operator Only)
-    // ========================
-
-    // Menampilkan semua mobil
-    public function monitorOngoing()
-    {
-        echo "<h1>🚗 Daftar Semua Mobil dilaman operator</h1>";
-    }
 }
