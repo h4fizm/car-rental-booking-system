@@ -67,7 +67,7 @@ class DashboardController extends Controller
         $popularCars = Car::inRandomOrder()->limit(5)->get();
         $favoriteCars = Car::inRandomOrder()->limit(3)->get();
 
-        return view('main-mobile', compact('userName', 'popularCars', 'favoriteCars'));
+        return view('menu-mobile.dashboard', compact('userName', 'popularCars', 'favoriteCars'));
     }
 
 }

@@ -71,4 +71,19 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Display the user's profile page (mobile version).
+     */
+    public function showMobileProfile(Request $request)
+    {
+        if ($request->user()->hasRole('user')) {
+            return view('menu-mobile.profil', [
+                'user' => $request->user(),
+            ]);
+        }
+
+        abort(403, 'Unauthorized action.');
+    }
+
 }

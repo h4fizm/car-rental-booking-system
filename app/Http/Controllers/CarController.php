@@ -117,5 +117,18 @@ class CarController extends Controller
 
         return view('menu.preview-car', compact('car'));
     }
+    public function showAvailableCars()
+    {
+        // Ambil semua mobil beserta relasi tipe-nya
+        $cars = Car::with('type')->get();
+
+        // Kirim data ke view daftar-mobil.blade.php
+        return view('menu-mobile.daftar-mobil', compact('cars'));
+    }
+    public function showByCategory($category)
+    {
+        $cars = Car::where('category', $category)->get(); // Sesuaikan dengan field kategori
+        return view('menu-mobile.kategori-mobil', compact('cars', 'category'));
+    }
 
 }

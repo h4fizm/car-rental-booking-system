@@ -17,38 +17,65 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view dashboard')
         ->name('user.dashboard');
 
-    // === ROUTE PER KATEGORI MOBIL ===
-    Route::get('/car/suv', fn() => view('cars.suv'))
+    Route::get('/user/daftar-mobil', [CarController::class, 'showAvailableCars'])
         ->middleware('permission:view available cars')
-        ->name('car.suv');
+        ->name('user.cars.list');
 
-    Route::get('/car/sedan', fn() => view('cars.sedan'))
-        ->middleware('permission:view available cars')
-        ->name('car.sedan');
+    Route::get('/car/{category}', [CarController::class, 'showByCategory'])->name('car.category');
 
-    Route::get('/car/pickup', fn() => view('cars.pickup'))
-        ->middleware('permission:view available cars')
-        ->name('car.pickup');
 
-    Route::get('/car/minivan', fn() => view('cars.minivan'))
-        ->middleware('permission:view available cars')
-        ->name('car.minivan');
+    // // Route untuk kategori mobil SUV
+    // Route::get('/user/car-category/suv', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.suv');
 
-    Route::get('/car/truckbox', fn() => view('cars.truckbox'))
-        ->middleware('permission:view available cars')
-        ->name('car.truckbox');
+    // // Route untuk kategori mobil Sedan
+    // Route::get('/user/car-category/sedan', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.sedan');
 
-    Route::get('/car/electric', fn() => view('cars.electric'))
-        ->middleware('permission:view available cars')
-        ->name('car.electric');
+    // // Route untuk kategori mobil Pickup
+    // Route::get('/user/car-category/pickup', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.pickup');
 
-    Route::get('/car/sport', fn() => view('cars.sport'))
-        ->middleware('permission:view available cars')
-        ->name('car.sport');
+    // // Route untuk kategori mobil Minivan
+    // Route::get('/user/car-category/minivan', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.minivan');
 
-    Route::get('/car/luxury', fn() => view('cars.luxury'))
-        ->middleware('permission:view available cars')
-        ->name('car.luxury');
+    // // Route untuk kategori mobil Truk Box
+    // Route::get('/user/car-category/truckbox', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.truckbox');
+
+    // // Route untuk kategori mobil Mobil Listrik
+    // Route::get('/user/car-category/electric', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.electric');
+
+    // // Route untuk kategori mobil Sport
+    // Route::get('/user/car-category/sport', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.sport');
+
+    // // Route untuk kategori mobil Luxury
+    // Route::get('/user/car-category/luxury', [CarController::class, 'showCategoryCars'])
+    //     ->middleware('permission:view available cars')
+    //     ->name('car.luxury');
+
+
+    Route::get('/user/riwayat', [BookingController::class, 'riwayat'])
+        ->middleware('permission:view booking history')
+        ->name('user.history');
+
+    Route::get('/user/profil', [ProfileController::class, 'showMobileProfile'])
+        ->middleware(['auth', 'permission:edit own profile'])
+        ->name('user.profil');
+
+    Route::get('/user/car-category/{category}', [CarController::class, 'showCategoryCars'])
+        ->middleware('permission:view available cars') // Menambahkan middleware permission
+        ->name('user.car.category');
 });
 
 
