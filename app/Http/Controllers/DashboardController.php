@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Car; // Pastikan model Car sudah digunakan
+use App\Models\Car;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -61,4 +61,13 @@ class DashboardController extends Controller
             'totalRejectedCars'
         ));
     }
+    public function userDashboard()
+    {
+        $userName = auth()->user()->name;
+        $popularCars = Car::inRandomOrder()->limit(5)->get();
+        $favoriteCars = Car::inRandomOrder()->limit(3)->get();
+
+        return view('main-mobile', compact('userName', 'popularCars', 'favoriteCars'));
+    }
+
 }

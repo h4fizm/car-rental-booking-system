@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->hasRole('operator')) {
             return redirect()->intended('/operator/dashboard');
         } elseif ($user->hasRole('user')) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/user/dashboard');
         }
 
         return redirect()->intended('/dashboard'); // fallback jika tidak ada role

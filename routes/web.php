@@ -13,38 +13,44 @@ use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 // === ROUTE UNTUK USER (PENUMPANG) ===
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
+    Route::get('/user/dashboard', [DashboardController::class, 'userDashboard'])
         ->middleware('permission:view dashboard')
         ->name('user.dashboard');
 
-    Route::get('/cars', [CarController::class, 'availableCars'])
+    // === ROUTE PER KATEGORI MOBIL ===
+    Route::get('/car/suv', fn() => view('cars.suv'))
         ->middleware('permission:view available cars')
-        ->name('cars.available');
+        ->name('car.suv');
 
-    Route::get('/booking', [BookingController::class, 'index'])
-        ->middleware('permission:create booking')
-        ->name('booking.index');
+    Route::get('/car/sedan', fn() => view('cars.sedan'))
+        ->middleware('permission:view available cars')
+        ->name('car.sedan');
 
-    Route::post('/booking', [BookingController::class, 'store'])
-        ->middleware('permission:create booking')
-        ->name('booking.store');
+    Route::get('/car/pickup', fn() => view('cars.pickup'))
+        ->middleware('permission:view available cars')
+        ->name('car.pickup');
 
-    Route::get('/booking/status', [BookingController::class, 'status'])
-        ->middleware('permission:view booking status')
-        ->name('booking.status');
+    Route::get('/car/minivan', fn() => view('cars.minivan'))
+        ->middleware('permission:view available cars')
+        ->name('car.minivan');
 
-    Route::get('/booking/history', [BookingController::class, 'history'])
-        ->middleware('permission:view booking history')
-        ->name('booking.history');
+    Route::get('/car/truckbox', fn() => view('cars.truckbox'))
+        ->middleware('permission:view available cars')
+        ->name('car.truckbox');
 
-    Route::get('/profile', [UserController::class, 'editOwn'])
-        ->middleware('permission:edit own profile')
-        ->name('profile.edit');
+    Route::get('/car/electric', fn() => view('cars.electric'))
+        ->middleware('permission:view available cars')
+        ->name('car.electric');
 
-    Route::patch('/profile', [UserController::class, 'updateOwn'])
-        ->middleware('permission:edit own profile')
-        ->name('profile.update');
+    Route::get('/car/sport', fn() => view('cars.sport'))
+        ->middleware('permission:view available cars')
+        ->name('car.sport');
+
+    Route::get('/car/luxury', fn() => view('cars.luxury'))
+        ->middleware('permission:view available cars')
+        ->name('car.luxury');
 });
+
 
 // === ROUTE UNTUK ADMIN ===
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
