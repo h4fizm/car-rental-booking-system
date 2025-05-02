@@ -21,49 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view available cars')
         ->name('user.cars.list');
 
-    Route::get('/car/{category}', [CarController::class, 'showByCategory'])->name('car.category');
-
-
-    // // Route untuk kategori mobil SUV
-    // Route::get('/user/car-category/suv', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.suv');
-
-    // // Route untuk kategori mobil Sedan
-    // Route::get('/user/car-category/sedan', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.sedan');
-
-    // // Route untuk kategori mobil Pickup
-    // Route::get('/user/car-category/pickup', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.pickup');
-
-    // // Route untuk kategori mobil Minivan
-    // Route::get('/user/car-category/minivan', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.minivan');
-
-    // // Route untuk kategori mobil Truk Box
-    // Route::get('/user/car-category/truckbox', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.truckbox');
-
-    // // Route untuk kategori mobil Mobil Listrik
-    // Route::get('/user/car-category/electric', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.electric');
-
-    // // Route untuk kategori mobil Sport
-    // Route::get('/user/car-category/sport', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.sport');
-
-    // // Route untuk kategori mobil Luxury
-    // Route::get('/user/car-category/luxury', [CarController::class, 'showCategoryCars'])
-    //     ->middleware('permission:view available cars')
-    //     ->name('car.luxury');
-
+    Route::get('/car/{category}', [CarController::class, 'showByCategory'])
+        ->middleware('permission:view available cars')
+        ->name('car.category');
 
     Route::get('/user/riwayat', [BookingController::class, 'riwayat'])
         ->middleware('permission:view booking history')

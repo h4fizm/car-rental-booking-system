@@ -119,16 +119,39 @@ class CarController extends Controller
     }
     public function showAvailableCars()
     {
-        // Ambil semua mobil beserta relasi tipe-nya
-        $cars = Car::with('type')->get();
+        $types = CarsType::all();
 
-        // Kirim data ke view daftar-mobil.blade.php
-        return view('menu-mobile.daftar-mobil', compact('cars'));
+        // Ambil semua mobil untuk ditampilkan di daftar
+        $allCars = Car::with('type')->get();
+
+        // Mobil favorit (acak 3 mobil saja, hanya untuk highlight)
+        if (!session()->has('mobilFavorit')) {
+            $mobilFavorit = Car::inRandomOrder()->limit(3)->get();
+            session(['mobilFavorit' => $mobilFavorit]);
+        } else {
+            $mobilFavorit = session('mobilFavorit');
+        }
+
+        // Mobil populer (acak 5 mobil untuk carousel)
+        if (!session()->has('mobilPopuler')) {
+            $mobilPopuler = Car::inRandomOrder()->limit(5)->get();
+            session(['mobilPopuler' => $mobilPopuler]);
+        } else {
+            $mobilPopuler = session('mobilPopuler');
+        }
+
+        return view('menu-mobile.daftar-mobil', compact('types', 'allCars', 'mobilFavorit', 'mobilPopuler'));
     }
+
+
     public function showByCategory($category)
     {
-        $cars = Car::where('category', $category)->get(); // Sesuaikan dengan field kategori
+        $cars = Car::whereHas('type', function ($query) use ($category) {
+            $query->where('name', $category);
+        })->get();
+
         return view('menu-mobile.kategori-mobil', compact('cars', 'category'));
     }
+
 
 }

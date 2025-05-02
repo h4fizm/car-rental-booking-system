@@ -22,10 +22,10 @@
     @yield('content')
    
     <!-- Footer Info -->
-    @if (!Route::is('user.profil'))
+    @if (!Route::is('user.profil') && !Route::is('car.category'))
         @include('partials-mobile.footer')
     @endif
-   
+
     <!-- Bottom Navigation -->
     @include('partials-mobile.navbar')
     

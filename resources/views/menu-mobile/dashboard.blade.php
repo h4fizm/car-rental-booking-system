@@ -84,7 +84,7 @@
     </a>
 
     <!-- Mobil Listrik -->
-    <a href="{{ route('car.category', ['category' => 'electric']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('car.category', ['category' => 'mobil listrik']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/electric-car.png') }}" alt="Mobil Listrik" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Mobil Listrik
     </a>

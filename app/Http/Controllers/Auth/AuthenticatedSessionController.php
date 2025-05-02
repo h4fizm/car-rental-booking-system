@@ -43,12 +43,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Hapus data mobil dari session
+        $request->session()->forget(['popularCars', 'favoriteCars', 'mobilFavorit', 'mobilPopuler']);
+
+        // Logout dari guard 'web'
         Auth::guard('web')->logout();
 
+        // Menonaktifkan sesi
         $request->session()->invalidate();
 
+        // Menyegarkan token sesi untuk keamanan
         $request->session()->regenerateToken();
 
+        // Redirect ke halaman utama
         return redirect('/');
     }
+
 }

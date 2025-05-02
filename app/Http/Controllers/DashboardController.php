@@ -64,10 +64,24 @@ class DashboardController extends Controller
     public function userDashboard()
     {
         $userName = auth()->user()->name;
-        $popularCars = Car::inRandomOrder()->limit(5)->get();
-        $favoriteCars = Car::inRandomOrder()->limit(3)->get();
+
+        // Cek apakah session sudah ada, jika belum maka generate
+        if (!session()->has('popularCars')) {
+            $popularCars = Car::inRandomOrder()->limit(5)->get();
+            session(['popularCars' => $popularCars]);
+        } else {
+            $popularCars = session('popularCars');
+        }
+
+        if (!session()->has('favoriteCars')) {
+            $favoriteCars = Car::inRandomOrder()->limit(3)->get();
+            session(['favoriteCars' => $favoriteCars]);
+        } else {
+            $favoriteCars = session('favoriteCars');
+        }
 
         return view('menu-mobile.dashboard', compact('userName', 'popularCars', 'favoriteCars'));
     }
+
 
 }

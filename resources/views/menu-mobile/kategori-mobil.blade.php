@@ -3,16 +3,17 @@
 @section('title', 'Laman Daftar Mobil - ' . ucfirst($category))
 
 @section('content')
-<div class="px-4 mt-2">
-    <h2 class="text-xl font-semibold flex items-center gap-2">
-        🚗 Pilihan {{ ucfirst($category) }} Terbaik Untukmu
-    </h2>
-    <p class="text-sm text-gray-500 leading-relaxed mt-1">
-        Temukan {{ strtolower($category) }} yang pas buat kebutuhanmu ✨
-    </p>
-</div>
-        <!-- Search Bar with Icon -->
-        <div class="mt-4 relative">
+    <div class="px-4 mt-2">
+        <h2 class="text-xl font-semibold flex items-center gap-2">
+            🚗 Pilihan {{ ucfirst($category) }} Terbaik Untukmu
+        </h2>
+        <p class="text-sm text-gray-500 leading-relaxed mt-1">
+            Temukan {{ strtolower($category) }} yang pas buat kebutuhanmu ✨
+        </p>
+    </div>
+    
+    <!-- Search Bar with Icon -->
+    <div class="px-4 mt-4">
         <span
             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
         >
@@ -59,9 +60,9 @@
     </div>
 
   <!-- Daftar Mobil -->
-<div class="p-4 space-y-5 mb-5">
+  <div class="p-4 space-y-5 mb-5">
     @forelse ($cars as $car)
-    <a href="{{ route('car.show', $car->id) }}" class="block">
+    <a href="" class="block">
         <div class="flex bg-gray-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
             <img src="{{ asset('storage/' . $car->image) }}" class="w-32 h-24 object-cover" alt="{{ $car->name }}" />
             <div class="p-3 flex-1">
