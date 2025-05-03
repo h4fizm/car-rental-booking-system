@@ -1,6 +1,4 @@
-<nav
-    class="fixed bottom-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur text-black border-t border-gray-200 shadow-md flex justify-around py-1.5 z-50"
->
+<nav class="fixed inset-x-0 bottom-0 pb-[env(safe-area-inset-bottom)] bg-white bg-opacity-90 backdrop-blur text-black border-t border-gray-200 shadow-md flex justify-around py-2 z-50">
     <!-- Beranda -->
     <a
         href="{{ route('user.dashboard') }}"

@@ -1,4 +1,4 @@
-<div class="bg-gray-900 text-white text-xs px-6 py-5 rounded-t-2xl mb-16">
+<div class="bg-gray-900 text-white text-xs px-6 py-5 rounded-t-2xl mb-12">
     <div class="space-y-2">
     <div>
         <p class="font-semibold">Hubungi Kami</p>

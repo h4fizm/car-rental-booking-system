@@ -54,49 +54,49 @@
 
    <div class="grid grid-cols-4 gap-4 text-center text-xs text-black">
     <!-- SUV -->
-    <a href="{{ route('car.category', ['category' => 'suv']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'suv']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/suv.png') }}" alt="SUV" class="mx-auto mb-1 w-8 h-8 object-contain" />
         SUV
     </a>
 
     <!-- Sedan -->
-    <a href="{{ route('car.category', ['category' => 'sedan']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'sedan']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/sedan.png') }}" alt="Sedan" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Sedan
     </a>
 
     <!-- Pickup -->
-    <a href="{{ route('car.category', ['category' => 'pickup']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'pickup']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/pickup.png') }}" alt="Pickup" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Pickup
     </a>
 
     <!-- Minivan -->
-    <a href="{{ route('car.category', ['category' => 'minivan']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'minivan']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/minivan.png') }}" alt="Minivan" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Minivan
     </a>
 
     <!-- Truk Box -->
-    <a href="{{ route('car.category', ['category' => 'truckbox']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'truckbox']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/truckbox.png') }}" alt="Truk Box" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Truk Box
     </a>
 
     <!-- Mobil Listrik -->
-    <a href="{{ route('car.category', ['category' => 'mobil listrik']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'mobil listrik']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/electric-car.png') }}" alt="Mobil Listrik" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Mobil Listrik
     </a>
 
     <!-- Sport -->
-    <a href="{{ route('car.category', ['category' => 'sport']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'sport']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/sport-car.png') }}" alt="Sport Car" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Sport
     </a>
 
     <!-- Luxury -->
-    <a href="{{ route('car.category', ['category' => 'luxury']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
+    <a href="{{ route('user.car.category', ['category' => 'luxury']) }}" class="flex flex-col items-center justify-center w-16 gap-0.5 text-[8px] text-black hover:text-black hover:bg-gray-300 px-2 py-1 transition rounded-md">
         <img src="{{ asset('mobile/assets/image/luxury.png') }}" alt="Luxury" class="mx-auto mb-1 w-8 h-8 object-contain" />
         Luxury
     </a>
@@ -107,14 +107,14 @@
 
 <!-- Carousel Section -->
 <div class="px-4 py-2">
-    <p class="text-sm text-gray-800 mb-1 font-medium">
+    <p class="text-sm text-gray-800 mb-3 font-medium">
     Rekomendasi Mobil Populer
     </p>
     <div class="swiper">
     <div class="swiper-wrapper">
         @foreach ($popularCars as $car)
         <a
-            href="" 
+            href="{{ route('user.car.detail', $car->id) }}" 
             class="swiper-slide w-64 rounded-2xl overflow-hidden shadow-md bg-white mb-4 block"
         >
             <img
@@ -140,7 +140,7 @@
     <div class="grid grid-cols-1 gap-5">
     @foreach ($favoriteCars as $car)
         <a
-        href=""
+        href="{{ route('user.car.detail', $car->id) }}"
         class="block bg-gray-100 rounded-xl shadow overflow-hidden hover:shadow-md transition"
         >
         <img

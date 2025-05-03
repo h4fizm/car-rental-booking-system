@@ -55,7 +55,7 @@
 </div>
 
 <!-- List Mobil -->
-<div class="px-4 py-2 pb-8">
+<div class="px-4 py-6">
   <p class="text-sm text-gray-800 mb-5 font-medium">
     List Mobil Berdasarkan Category
   </p>
@@ -65,7 +65,7 @@
     </p>
 
     @foreach ($allCars as $mobil)
-      <a href="{{ url('/mobil/' . $mobil->id) }}"
+      <a href="{{ route('user.car.detail', $mobil->id) }}"
         class="car-item block bg-gray-100 rounded-xl shadow overflow-hidden hover:shadow-md transition"
         data-type="{{ $mobil->type->id }}"
         data-name="{{ strtolower($mobil->name . ' ' . $mobil->type->name) }}">
@@ -76,32 +76,36 @@
           <p class="text-xs text-gray-500">{{ $mobil->type->name ?? 'Tipe tidak tersedia' }}</p>
           <p class="text-xs text-black mt-1 font-medium">Rp {{ number_format($mobil->price, 0, ',', '.') }}/hari</p>
         </div>
-      </a>
+      </a> 
     @endforeach
   </div>
 </div>
 
 <!-- Carousel Section -->
 <div class="px-4 py-2">
-  <p class="text-sm text-gray-800 mb-1 font-medium">
-    Rekomendasi Mobil Populer
-  </p>
-  <div class="swiper">
+    <p class="text-sm text-gray-800 mb-3 font-medium">
+    Rekomendasi Mobil Favorit
+    </p>
+    <div class="swiper">
     <div class="swiper-wrapper">
-      @foreach ($mobilPopuler as $mobil)
-        <a href="{{ url('/mobil/' . $mobil->id) }}"
-          class="swiper-slide w-64 rounded-2xl overflow-hidden shadow-md bg-white mb-4 block">
-          <img src="{{ asset('storage/' . $mobil->photo) }}" alt="{{ $mobil->name }}"
-            class="w-full h-36 object-cover" />
-          <div class="p-3">
+        @foreach ($mobilFavorit as $mobil)
+        <a
+            href="{{ route('user.car.detail', $mobil->id) }}" 
+            class="swiper-slide w-64 rounded-2xl overflow-hidden shadow-md bg-white mb-4 block"
+        >
+            <img
+            src="{{ asset('storage/' . $mobil->photo) }}"
+            alt="{{ $mobil->name }}"
+            class="w-full h-36 object-cover"
+            />
+            <div class="p-3">
             <p class="text-sm font-semibold">{{ $mobil->name }}</p>
-            <p class="text-xs text-gray-500">{{ $mobil->type->name ?? 'Tipe tidak tersedia' }}</p>
-            <p class="text-xs text-black mt-1 font-medium">Rp {{ number_format($mobil->price, 0, ',', '.') }}/hari</p>
-          </div>
+            <p class="text-xs text-gray-500">Mulai dari Rp {{ number_format($mobil->price, 0, ',', '.') }}/hari</p>
+            </div>
         </a>
-      @endforeach
+        @endforeach
     </div>
-  </div>
+    </div>
 </div>
 
 <!-- Script -->

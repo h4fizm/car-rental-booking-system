@@ -2,15 +2,16 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
     <title>Dashboard - Car Rental</title>
     <!-- Favicon -->
-    <link rel="icon" href="assets/image/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('mobile/assets/image/favicon.png') }}" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   </head>
 
   <body class="bg-white text-black font-sans">
@@ -22,8 +23,8 @@
     @yield('content')
    
     <!-- Footer Info -->
-    @if (!Route::is('user.profil') && !Route::is('car.category'))
-        @include('partials-mobile.footer')
+    @if (!Route::is('user.profil') && !Route::is('user.car.category') && !Route::is('user.car.detail'))
+      @include('partials-mobile.footer')
     @endif
 
     <!-- Bottom Navigation -->

@@ -21,9 +21,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view available cars')
         ->name('user.cars.list');
 
-    Route::get('/car/{category}', [CarController::class, 'showByCategory'])
+    Route::get('/user/car-category/{category}', [CarController::class, 'showCategoryCars'])
+        ->middleware('permission:view available cars') // Menambahkan middleware permission
+        ->name('user.car.category');
+
+    Route::get('/car/{id}', [CarController::class, 'showDetail'])
         ->middleware('permission:view available cars')
-        ->name('car.category');
+        ->name('user.car.detail');
 
     Route::get('/user/riwayat', [BookingController::class, 'riwayat'])
         ->middleware('permission:view booking history')
@@ -33,9 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware(['auth', 'permission:edit own profile'])
         ->name('user.profil');
 
-    Route::get('/user/car-category/{category}', [CarController::class, 'showCategoryCars'])
-        ->middleware('permission:view available cars') // Menambahkan middleware permission
-        ->name('user.car.category');
 });
 
 

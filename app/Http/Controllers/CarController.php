@@ -142,9 +142,7 @@ class CarController extends Controller
 
         return view('menu-mobile.daftar-mobil', compact('types', 'allCars', 'mobilFavorit', 'mobilPopuler'));
     }
-
-
-    public function showByCategory($category)
+    public function showCategoryCars($category)
     {
         $cars = Car::whereHas('type', function ($query) use ($category) {
             $query->where('name', $category);
@@ -153,5 +151,11 @@ class CarController extends Controller
         return view('menu-mobile.kategori-mobil', compact('cars', 'category'));
     }
 
+    public function showDetail($id)
+    {
+        $car = Car::with('type')->findOrFail($id);
+
+        return view('menu-mobile.detail-mobil', compact('car'));
+    }
 
 }
