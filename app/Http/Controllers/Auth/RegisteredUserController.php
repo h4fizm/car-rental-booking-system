@@ -41,7 +41,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // ✅ Berikan permission default yang sesuai untuk user
+        // Tambahkan role default 'user'
+        $user->assignRole('user');
+
+        // Berikan permission default untuk role 'user'
         $user->givePermissionTo([
             'view dashboard',
             'view available cars',
@@ -54,9 +57,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        // Tidak langsung login, arahkan ke login page
+        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan login.');
     }
+
 
 }

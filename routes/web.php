@@ -33,9 +33,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view booking history')
         ->name('user.history');
 
-    Route::get('/user/profil', [ProfileController::class, 'showMobileProfile'])
-        ->middleware(['auth', 'permission:edit own profile'])
-        ->name('user.profil');
+    Route::middleware(['auth', 'role:user', 'permission:edit own profile'])->group(function () {
+        // Tampilkan halaman profil mobile
+        Route::get('/user/profil', [ProfileController::class, 'showMobileProfile'])
+            ->name('user.profil');
+
+        // Proses update profil
+        Route::post('/user/profil/update', [ProfileController::class, 'updateUserProfile'])
+            ->name('user.profile.update');
+    });
+
 
 });
 

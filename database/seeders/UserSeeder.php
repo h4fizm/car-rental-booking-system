@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('password'), // ganti dengan yang lebih aman
+            'photo' => 'profile_photos/admin.jpg',
         ]);
         $admin->assignRole('admin');
 
@@ -23,6 +24,7 @@ class UserSeeder extends Seeder
             'name' => 'Operator',
             'email' => 'operator@operator.com',
             'password' => Hash::make('password'),
+            'photo' => 'profile_photos/operator.jpg',
         ]);
         $operator->assignRole('operator');
 
@@ -31,7 +33,9 @@ class UserSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@user.com',
             'password' => Hash::make('password'),
+            'photo' => 'profile_photos/user.jpg',
         ]);
         $user->assignRole('user');
     }
+
 }

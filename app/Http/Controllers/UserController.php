@@ -88,13 +88,10 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
-
         // Hapus user
         $user->delete();
 
         // Redirect kembali ke halaman daftar user dengan pesan sukses
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
     }
-
-
 }

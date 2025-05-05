@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-    <title>Dashboard - Car Rental</title>
+    <title>@yield('title')</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('mobile/assets/image/favicon.png') }}" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
