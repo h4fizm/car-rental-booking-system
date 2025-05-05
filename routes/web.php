@@ -29,9 +29,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view available cars')
         ->name('user.car.detail');
 
+    Route::get('/user/checkout/{car}', [BookingController::class, 'index'])
+        ->middleware('permission:create booking')
+        ->name('user.checkout');
+
+    Route::post('/user/checkout/{car}', [BookingController::class, 'store'])
+        ->middleware('permission:create booking')
+        ->name('user.checkout.store');
+
     Route::get('/user/riwayat', [BookingController::class, 'riwayat'])
         ->middleware('permission:view booking history')
         ->name('user.history');
+
 
     Route::middleware(['auth', 'role:user', 'permission:edit own profile'])->group(function () {
         // Tampilkan halaman profil mobile

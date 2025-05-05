@@ -33,10 +33,15 @@
 </div>
 
 <div class="fixed bottom-16 left-0 right-0 bg-white  px-4 py-3 z-50">
-  <a href=""
-    class="w-full block text-center py-2 rounded-xl bg-green-500 text-white font-semibold">
-    Sewa Sekarang
-  </a>
+  <form action="{{ route('user.checkout', ['car' => $car->id]) }}" method="GET">
+    <input type="hidden" name="name" value="{{ $car->name }}">
+    <input type="hidden" name="category" value="{{ $car->type->name ?? '-' }}">
+
+    <button type="submit"
+      class="w-full block text-center py-2 rounded-xl bg-green-500 text-white font-semibold">
+      Sewa Sekarang
+    </button>
+  </form>
 </div>
 
 @endsection

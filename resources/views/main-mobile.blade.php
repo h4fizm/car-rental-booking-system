@@ -23,7 +23,12 @@
     @yield('content')
    
     <!-- Footer Info -->
-    @if (!Route::is('user.profil') && !Route::is('user.car.category') && !Route::is('user.car.detail'))
+    @if (
+        !Route::is('user.profil') && 
+        !Route::is('user.car.category') && 
+        !Route::is('user.car.detail') &&
+        !Route::is('user.checkout')
+    )
       @include('partials-mobile.footer')
     @endif
 
