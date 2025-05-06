@@ -37,4 +37,5 @@ class Car extends Model
     {
         return $this->hasMany(Order::class, 'car_id');
     }
+
 }

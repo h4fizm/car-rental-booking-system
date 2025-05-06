@@ -27,7 +27,9 @@
         !Route::is('user.profil') && 
         !Route::is('user.car.category') && 
         !Route::is('user.car.detail') &&
-        !Route::is('user.checkout')
+        !Route::is('user.checkout') &&
+        !Route::is('user.history') 
+
     )
       @include('partials-mobile.footer')
     @endif

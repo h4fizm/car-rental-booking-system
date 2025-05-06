@@ -56,7 +56,33 @@ class BookingController extends Controller
 
     public function riwayat()
     {
-        return view('menu-mobile.riwayat');
+        // Set timezone ke Asia/Jakarta
+        date_default_timezone_set('Asia/Jakarta');
+        \Carbon\Carbon::setLocale('id');
+
+        $user = auth()->user();
+
+        $orders = Order::with(['car.type']) // Memuat relasi car dan type
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Definisikan mapping ikon
+        $carIcons = [
+            'suv' => 'suv.png',
+            'sedan' => 'sedan.png',
+            'pickup' => 'pickup.png',
+            'minivan' => 'minivan.png',
+            'truckbox' => 'truckbox.png',
+            'mobil listrik' => 'electric-car.png',
+            'sport' => 'sport-car.png',
+            'luxury' => 'luxury.png'
+        ];
+
+        return view('menu-mobile.riwayat', [
+            'orders' => $orders,
+            'carIcons' => $carIcons
+        ]);
     }
 
 }

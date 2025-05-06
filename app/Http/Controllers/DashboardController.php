@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Car;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -34,7 +35,6 @@ class DashboardController extends Controller
             'totalRejectedCars'
         ));
     }
-
     public function operatorDashboard()
     {
         // Menghitung jumlah user berdasarkan role
@@ -63,7 +63,14 @@ class DashboardController extends Controller
     }
     public function userDashboard()
     {
-        $userName = auth()->user()->name;
+        $user = auth()->user();
+        $userName = $user->name;
+
+        // Ambil order terakhir
+        $latestOrder = Order::with(['car.type'])
+            ->where('user_id', $user->id)
+            ->latest()
+            ->first();
 
         // Cek apakah session sudah ada, jika belum maka generate
         if (!session()->has('popularCars')) {
@@ -80,8 +87,11 @@ class DashboardController extends Controller
             $favoriteCars = session('favoriteCars');
         }
 
-        return view('menu-mobile.dashboard', compact('userName', 'popularCars', 'favoriteCars'));
+        return view('menu-mobile.dashboard', compact(
+            'userName',
+            'popularCars',
+            'favoriteCars',
+            'latestOrder'
+        ));
     }
-
-
 }

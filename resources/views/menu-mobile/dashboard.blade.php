@@ -13,34 +13,70 @@
 <!-- Latest/Current Status -->
 <div class="px-4 py-2">
     <div class="bg-gray-100 rounded-2xl p-4 shadow-sm">
-    <div class="space-y-1">
-        <p class="text-sm text-gray-800 font-medium mb-1">
-        Pemesanan Terakhir
-        </p>
-        <div class="bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
-        <div class="flex items-start gap-3">
-            <img
-            src="{{ asset('mobile/assets/image/sedan.png') }}"
-            alt="Sedan"
-            class="w-8 h-8 object-contain mt-1"
-            />
-            <div class="flex-1">
-            <p class="text-sm font-semibold text-black">
-                Honda Civic Type-R - Sedan
+        <div class="space-y-1">
+            <p class="text-sm text-gray-800 font-medium mb-1">
+                Pemesanan Terakhir
             </p>
-            <p class="text-xs text-gray-500">
-                08 Apr 2025, 09:00 - 10 Apr 2025, 20:00
-            </p>
-            <div class="flex items-center gap-2 mt-2">
-                <span
-                class="bg-red-100 text-red-700 px-3 py-0.5 rounded-full text-xs font-medium"
-                >Ditolak</span
-                >
-            </div>
-            </div>
+            
+            @if($latestOrder)
+                <div class="bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <!-- Ikon mobil -->
+                        <div class="w-8 h-8 mt-1">
+                            @php
+                                $carIcons = [
+                                    'suv' => 'suv.png',
+                                    'sedan' => 'sedan.png',
+                                    'pickup' => 'pickup.png',
+                                    'minivan' => 'minivan.png',
+                                    'truckbox' => 'truckbox.png',
+                                    'mobil listrik' => 'electric-car.png',
+                                    'sport' => 'sport-car.png',
+                                    'luxury' => 'luxury.png'
+                                ];
+                                $typeLower = strtolower($latestOrder->car->type->name ?? '');
+                                $iconFile = $carIcons[$typeLower] ?? 'default-car.png';
+                            @endphp
+                            <img 
+                                src="{{ asset('mobile/assets/image/' . $iconFile) }}" 
+                                alt="{{ $latestOrder->car->type->name ?? 'Mobil' }}" 
+                                class="w-full h-full object-contain"
+                            />
+                        </div>
+                        
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-black">
+                                {{ $latestOrder->car->name }} - {{ $latestOrder->car->type->name }}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                {{ \Carbon\Carbon::parse($latestOrder->start_date)->translatedFormat('d M Y, H:i') }} - 
+                                {{ \Carbon\Carbon::parse($latestOrder->end_date)->translatedFormat('d M Y, H:i') }}
+                            </p>
+                            <div class="flex items-center gap-2 mt-2">
+                                @php
+                                    $statusClasses = [
+                                        'pending' => 'bg-yellow-100 text-yellow-700',
+                                        'approved' => 'bg-green-100 text-green-700',
+                                        'rejected' => 'bg-red-100 text-red-700',
+                                        'completed' => 'bg-blue-100 text-blue-700'
+                                    ];
+                                    $statusClass = $statusClasses[strtolower($latestOrder->status)] ?? 'bg-gray-100 text-gray-700';
+                                @endphp
+                                <span class="px-3 py-0.5 rounded-full text-xs font-medium {{ $statusClass }}">
+                                    {{ ucfirst($latestOrder->status) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="bg-white border border-gray-200 rounded-xl p-4 text-center">
+                    <p class="text-sm text-gray-500">
+                        Anda belum memiliki riwayat pemesanan
+                    </p>
+                </div>
+            @endif
         </div>
-        </div>
-    </div>
     </div>
 </div>
 
