@@ -43,11 +43,10 @@
                             ];
 
                             $badgeColorsStatus = [
-                                'accept' => 'bg-success',
+                                'diterima' => 'bg-success',
                                 'pending' => 'bg-warning text-dark',
-                                'cancel' => 'bg-secondary',
-                                'reject' => 'bg-danger',
-                                'finish' => 'bg-primary',
+                                'tersedia' => 'bg-secondary',
+                                'ditolak' => 'bg-danger',
                                 null => 'bg-muted', // Status null berarti belum ada peminjaman
                             ];
                         @endphp
@@ -69,7 +68,6 @@
                                         <span class="text-dark">Belum ada peminjaman</span> <!-- Mengubah teks menjadi hitam -->
                                     @endif
                                 </td>
-
                                 <td class="text-center">
                                     <span class="badge 
                                         @if ($car->status)

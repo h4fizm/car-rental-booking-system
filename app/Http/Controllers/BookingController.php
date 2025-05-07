@@ -31,43 +31,47 @@ class BookingController extends Controller
             'description' => 'nullable|string|max:255',
         ]);
 
-        // Hitung harga total berdasarkan tanggal
+        // Hitung harga total
         $startDate = Carbon::parse($request->start_date . ' ' . $request->start_time);
         $endDate = Carbon::parse($request->end_date . ' ' . $request->end_time);
         $pricePerDay = $car->price;
-        $days = $startDate->diffInDays($endDate) + 1; // +1 karena termasuk hari pertama
+        $days = $startDate->diffInDays($endDate) + 1;
         $totalPrice = $days * $pricePerDay;
 
-        // Simpan data pesanan ke database
-        Order::create([
+        // Simpan order ke database
+        $order = Order::create([
             'user_id' => auth()->id(),
             'car_id' => $car->id,
-            'description' => $request->description, // Gantilah 'decription' dengan 'description'
+            'description' => $request->description,
             'price' => $totalPrice,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
         ]);
 
-        // Redirect dengan pesan sukses
+        // Update data mobil
+        $car->update([
+            'start_rental' => $startDate,
+            'end_rental' => $endDate,
+            'status' => 'pending',
+        ]);
+
         return redirect()->route('user.history', $car->id)->with('success', 'Pemesanan berhasil!');
     }
 
     public function riwayat()
     {
-        // Set timezone ke Asia/Jakarta
         date_default_timezone_set('Asia/Jakarta');
         \Carbon\Carbon::setLocale('id');
 
         $user = auth()->user();
 
-        $orders = Order::with(['car.type']) // Memuat relasi car dan type
+        $orders = Order::with(['car.type', 'user']) // Tambah relasi user
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Definisikan mapping ikon
         $carIcons = [
             'suv' => 'suv.png',
             'sedan' => 'sedan.png',
@@ -81,8 +85,9 @@ class BookingController extends Controller
 
         return view('menu-mobile.riwayat', [
             'orders' => $orders,
-            'carIcons' => $carIcons
+            'carIcons' => $carIcons,
         ]);
     }
+
 
 }

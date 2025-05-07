@@ -12,7 +12,8 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'car_id',
-        'description', // Pastikan kolom 'description' ada di sini
+        'description',
+        'status',
         'price',
         'start_date',
         'end_date',

@@ -47,10 +47,19 @@
                     <p class="text-xs text-gray-500">Kategori : {{ $order->car->type->name ?? 'N/A' }}</p>
                 </div>
                 <!-- Status sederhana tanpa styling -->
-                <span class="text-xs text-yellow-500">Pending</span>
-                {{-- <span class="text-xs text-red-500">Reject</span>
-                <span class="text-xs text-green-500">Accept</span>
-                <span class="text-xs text-blue-500">Finish</span> --}}
+                @php
+                    $statusColor = [
+                        'pending' => 'text-yellow-500',
+                        'ditolak' => 'text-red-500',
+                        'diterima' => 'text-green-500',
+                        'selesai' => 'text-blue-500',
+                    ];
+                @endphp
+
+                <span class="text-xs {{ $statusColor[$order->car->status] ?? 'text-gray-500' }}">
+                    {{ ucfirst($order->car->status ?? 'Tidak Diketahui') }}
+                </span>
+
             </div>
 
             <div class="mt-2 space-y-1 text-sm text-gray-700">

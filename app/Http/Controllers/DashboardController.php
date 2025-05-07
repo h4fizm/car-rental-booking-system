@@ -72,16 +72,23 @@ class DashboardController extends Controller
             ->latest()
             ->first();
 
-        // Cek apakah session sudah ada, jika belum maka generate
+        // Mobil populer (status tersedia atau ditolak)
         if (!session()->has('popularCars')) {
-            $popularCars = Car::inRandomOrder()->limit(5)->get();
+            $popularCars = Car::whereIn('status', ['tersedia'])
+                ->inRandomOrder()
+                ->limit(5)
+                ->get();
             session(['popularCars' => $popularCars]);
         } else {
             $popularCars = session('popularCars');
         }
 
+        // Mobil favorit (status tersedia atau ditolak)
         if (!session()->has('favoriteCars')) {
-            $favoriteCars = Car::inRandomOrder()->limit(3)->get();
+            $favoriteCars = Car::whereIn('status', ['tersedia'])
+                ->inRandomOrder()
+                ->limit(3)
+                ->get();
             session(['favoriteCars' => $favoriteCars]);
         } else {
             $favoriteCars = session('favoriteCars');
@@ -94,4 +101,5 @@ class DashboardController extends Controller
             'latestOrder'
         ));
     }
+
 }

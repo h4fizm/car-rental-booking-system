@@ -40,9 +40,8 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="">Status Diterima</a> <!-- Accept -->
                         <a class="nav-link" href="">Status Pending</a>  <!-- Pending -->
-                        <a class="nav-link" href="">Status Cancel</a>   <!-- Cancel -->
                         <a class="nav-link" href="">Status Ditolak</a>  <!-- Reject -->
-                        <a class="nav-link" href="">Status Selesai</a>  <!-- Finish -->
+                        <a class="nav-link" href="">Status Tersedia</a>  <!-- Available -->
                     </nav>
                 </div>
 

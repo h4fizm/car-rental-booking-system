@@ -12,13 +12,15 @@ class Car extends Model
 
     protected $fillable = [
         'name',
+        'photo',
         'price',
         'description',
-        'photo',
         'type_id',
         'status',
-
+        'start_rental',
+        'end_rental',
     ];
+
 
 
     protected $casts = [

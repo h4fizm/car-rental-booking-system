@@ -11,7 +11,9 @@ class CarController extends Controller
 {
     public function index()
     {
+        // Ambil semua data mobil beserta relasi tipe
         $cars = Car::with('type')->get();
+
         return view('menu.table-car', compact('cars'));
     }
 
@@ -47,13 +49,14 @@ class CarController extends Controller
             'description' => $validated['deskripsi'],
             'photo' => $path,
             'type_id' => $type->id,
-            'status' => null,
+            'status' => 'tersedia', // <--- otomatis tersedia
             'start_rental' => null,
             'end_rental' => null,
         ]);
 
         return redirect()->route('admin.cars.index')->with('success', 'Data mobil berhasil ditambahkan.');
     }
+
     public function edit($id)
     {
         $car = Car::findOrFail($id);
@@ -121,20 +124,26 @@ class CarController extends Controller
     {
         $types = CarsType::all();
 
-        // Ambil semua mobil untuk ditampilkan di daftar
-        $allCars = Car::with('type')->get();
+        // Hanya ambil mobil dengan status tersedia atau ditolak
+        $allCars = Car::with('type')
+            ->whereIn('status', ['tersedia'])
+            ->get();
 
-        // Mobil favorit (acak 3 mobil saja, hanya untuk highlight)
         if (!session()->has('mobilFavorit')) {
-            $mobilFavorit = Car::inRandomOrder()->limit(3)->get();
+            $mobilFavorit = Car::whereIn('status', ['tersedia'])
+                ->inRandomOrder()
+                ->limit(3)
+                ->get();
             session(['mobilFavorit' => $mobilFavorit]);
         } else {
             $mobilFavorit = session('mobilFavorit');
         }
 
-        // Mobil populer (acak 5 mobil untuk carousel)
         if (!session()->has('mobilPopuler')) {
-            $mobilPopuler = Car::inRandomOrder()->limit(5)->get();
+            $mobilPopuler = Car::whereIn('status', ['tersedia'])
+                ->inRandomOrder()
+                ->limit(5)
+                ->get();
             session(['mobilPopuler' => $mobilPopuler]);
         } else {
             $mobilPopuler = session('mobilPopuler');
@@ -144,12 +153,14 @@ class CarController extends Controller
     }
     public function showCategoryCars($category)
     {
-        $cars = Car::whereHas('type', function ($query) use ($category) {
-            $query->where('name', $category);
-        })->get();
+        $cars = Car::whereIn('status', ['tersedia'])
+            ->whereHas('type', function ($query) use ($category) {
+                $query->where('name', $category);
+            })->get();
 
         return view('menu-mobile.kategori-mobil', compact('cars', 'category'));
     }
+
 
     public function showDetail($id)
     {

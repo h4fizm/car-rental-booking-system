@@ -14,7 +14,7 @@ class CarsSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = ['accept', 'cancel', 'reject', 'pending', 'finish', null];
+        $rentedStatuses = ['diterima', 'ditolak', 'pending'];
 
         $cars = [
             ['name' => 'Toyota Fortuner', 'type' => 'SUV', 'price' => 700000],
@@ -30,10 +30,13 @@ class CarsSeeder extends Seeder
         foreach ($cars as $carData) {
             $typeId = CarsType::where('name', $carData['type'])->value('id');
 
-            // Random kondisi: ada yang belum disewa (start_rental & end_rental = null)
             $isRented = rand(0, 1);
+            $startRental = $isRented ? Carbon::now()->addDays(rand(1, 3)) : null;
+            $endRental = $isRented ? Carbon::now()->addDays(rand(4, 7)) : null;
+            $status = $isRented
+                ? $rentedStatuses[array_rand($rentedStatuses)]
+                : 'tersedia';
 
-            // Generate fake image path for each car
             $imagePath = 'images/cars/' . strtolower(str_replace(' ', '_', $carData['name'])) . '.jpg';
 
             Car::create([
@@ -41,11 +44,12 @@ class CarsSeeder extends Seeder
                 'type_id' => $typeId,
                 'price' => $carData['price'],
                 'description' => 'Deskripsi untuk ' . $carData['name'] . ' dengan tipe ' . $carData['type'] . '.',
-                'start_rental' => $isRented ? Carbon::now()->addDays(rand(1, 3)) : null,
-                'end_rental' => $isRented ? Carbon::now()->addDays(rand(4, 7)) : null,
-                'status' => $isRented ? $statuses[array_rand($statuses)] : null,
-                'photo' => $imagePath,  // Menyimpan path gambar
+                'start_rental' => $startRental,
+                'end_rental' => $endRental,
+                'status' => $status,
+                'photo' => $imagePath,
             ]);
         }
     }
+
 }
