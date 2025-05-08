@@ -12,9 +12,20 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'car_id',
-        'decription',
+        'description',
+        'status',
         'price',
-        'photo_file',
+        'start_date',
+        'end_date',
+        'start_time',
+        'end_time',
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function user()

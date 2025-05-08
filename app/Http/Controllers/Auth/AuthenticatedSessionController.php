@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->hasRole('operator')) {
             return redirect()->intended('/operator/dashboard');
         } elseif ($user->hasRole('user')) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/user/dashboard');
         }
 
         return redirect()->intended('/dashboard'); // fallback jika tidak ada role
@@ -43,12 +43,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Hapus data mobil dari session
+        $request->session()->forget(['popularCars', 'favoriteCars', 'mobilFavorit', 'mobilPopuler']);
+
+        // Logout dari guard 'web'
         Auth::guard('web')->logout();
 
+        // Menonaktifkan sesi
         $request->session()->invalidate();
 
+        // Menyegarkan token sesi untuk keamanan
         $request->session()->regenerateToken();
 
+        // Redirect ke halaman utama
         return redirect('/');
     }
+
 }

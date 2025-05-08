@@ -72,8 +72,8 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
                     <div class="card-body">
-                        <h5>Mobil Tersedia</h5>
-                        <p>{{ $totalAvailableCars }}</p>
+                        <h5>Mobil Disetujui</h5>
+                        <p> {{ $totalApprovedCars }}</p>
                     </div>
                 </div>
             </div>
