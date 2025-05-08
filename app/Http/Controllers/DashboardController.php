@@ -11,56 +11,56 @@ class DashboardController extends Controller
 {
     public function adminDashboard()
     {
-        // Menghitung jumlah user berdasarkan role
+        // Data User berdasarkan Role
         $totalUsers = User::count();
         $totalAdmins = User::role('admin')->count();
         $totalUsersRole = User::role('user')->count();
         $totalOperators = User::role('operator')->count();
 
-        // Menghitung jumlah mobil berdasarkan status
+        // Data Mobil berdasarkan Status Verifikasi
         $totalCars = Car::count();
-        $totalAvailableCars = Car::where('status', 'available')->count(); // status tersedia
-        $totalPendingCars = Car::where('status', 'pending')->count(); // status pending
-        $totalRejectedCars = Car::where('status', 'rejected')->count(); // status ditolak
+        $totalApprovedCars = Car::where('status', 'diterima')->count();  // mobil disetujui
+        $totalPendingCars = Car::where('status', 'pending')->count();    // mobil menunggu persetujuan
+        $totalRejectedCars = Car::where('status', 'ditolak')->count();  // mobil ditolak
 
-        // Kirim data ke view
         return view('menu.dashboard', compact(
             'totalUsers',
             'totalAdmins',
             'totalUsersRole',
             'totalOperators',
             'totalCars',
-            'totalAvailableCars',
+            'totalApprovedCars',
             'totalPendingCars',
             'totalRejectedCars'
         ));
     }
+
     public function operatorDashboard()
     {
-        // Menghitung jumlah user berdasarkan role
+        // Data User berdasarkan Role
         $totalUsers = User::count();
         $totalAdmins = User::role('admin')->count();
         $totalUsersRole = User::role('user')->count();
         $totalOperators = User::role('operator')->count();
 
-        // Menghitung jumlah mobil berdasarkan status
+        // Data Mobil berdasarkan Status Verifikasi
         $totalCars = Car::count();
-        $totalAvailableCars = Car::where('status', 'available')->count(); // status tersedia
-        $totalPendingCars = Car::where('status', 'pending')->count(); // status pending
-        $totalRejectedCars = Car::where('status', 'rejected')->count(); // status ditolak
+        $totalApprovedCars = Car::where('status', 'diterima')->count();  // mobil disetujui
+        $totalPendingCars = Car::where('status', 'pending')->count();    // mobil menunggu persetujuan
+        $totalRejectedCars = Car::where('status', 'ditolak')->count();  // mobil ditolak
 
-        // Kirim data ke view
         return view('menu.dashboard', compact(
             'totalUsers',
             'totalAdmins',
             'totalUsersRole',
             'totalOperators',
             'totalCars',
-            'totalAvailableCars',
+            'totalApprovedCars',
             'totalPendingCars',
             'totalRejectedCars'
         ));
     }
+
     public function userDashboard()
     {
         $user = auth()->user();

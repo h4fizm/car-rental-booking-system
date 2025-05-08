@@ -30,20 +30,23 @@
                     </a>
                 @endrole
                 
-                <!-- Daftar Pesanan User -->
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePesanan" aria-expanded="false" aria-controls="collapsePesanan">
-                    <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
-                    Daftar Pesanan User
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapsePesanan" aria-labelledby="headingPesanan" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="">Status Diterima</a> <!-- Accept -->
-                        <a class="nav-link" href="">Status Pending</a>  <!-- Pending -->
-                        <a class="nav-link" href="">Status Ditolak</a>  <!-- Reject -->
-                        <a class="nav-link" href="">Status Tersedia</a>  <!-- Available -->
-                    </nav>
-                </div>
+                @hasanyrole('admin|operator')
+                    <!-- Daftar Pesanan User -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePesanan" aria-expanded="false" aria-controls="collapsePesanan">
+                        <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
+                        Daftar Pesanan User
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePesanan" aria-labelledby="headingPesanan" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ route('mobil.diterima') }}">Status Diterima</a>
+                            <a class="nav-link" href="{{ route('mobil.pending') }}">Status Pending</a>
+                            <a class="nav-link" href="{{ route('mobil.ditolak') }}">Status Ditolak</a>
+                            <a class="nav-link" href="{{ route('mobil.tersedia') }}">Status Tersedia</a>
+                        </nav>
+                    </div>
+                @endhasanyrole
+
 
                 <div class="sb-sidenav-menu-heading">Pengaturan</div>
                 @if(auth()->user()->hasRole('admin'))

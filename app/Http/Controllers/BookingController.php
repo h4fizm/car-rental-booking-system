@@ -69,6 +69,9 @@ class BookingController extends Controller
 
         $orders = Order::with(['car.type', 'user']) // Tambah relasi user
             ->where('user_id', $user->id)
+            ->whereHas('car', function ($query) {
+                $query->where('status', '!=', 'Tersedia'); // Filter mobil yang tidak berstatus Tersedia
+            })
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -87,6 +90,45 @@ class BookingController extends Controller
             'orders' => $orders,
             'carIcons' => $carIcons,
         ]);
+    }
+
+    public function tersedia()
+    {
+        $cars = Car::with('type')->where('status', 'Tersedia')->get();
+        return view('menu.table-tersedia', compact('cars'));
+    }
+    public function pending()
+    {
+        $cars = Car::with('type')
+            ->where('status', 'Pending')
+            ->get();
+
+        return view('menu.table-pending', compact('cars'));
+    }
+    public function diterima()
+    {
+        // Ambil hanya mobil dengan status 'Diterima'
+        $cars = Car::where('status', 'Diterima')->get();
+
+        return view('menu.table-diterima', compact('cars'));
+    }
+    public function ditolak()
+    {
+        // Ambil hanya mobil dengan status 'Diterima'
+        $cars = Car::where('status', 'Ditolak')->get();
+
+        return view('menu.table-ditolak', compact('cars'));
+    }
+    public function updateStatus(Request $request, Car $car)
+    {
+        $request->validate([
+            'status' => 'required|string|in:Diterima,Pending,Ditolak,Tersedia',
+        ]);
+
+        $car->status = $request->status;
+        $car->save();
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
 
 
