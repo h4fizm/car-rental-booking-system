@@ -14,7 +14,7 @@ class RolePermissionSeeder extends Seeder
 
         // === ALL PERMISSIONS ===
         $permissions = [
-            // USER
+            // USER (PENUMPANG)
             'view dashboard',
             'view available cars',
             'create booking',
@@ -25,13 +25,13 @@ class RolePermissionSeeder extends Seeder
 
             // ADMIN
             'manage all cars',
-            'manage all bookings',
+            'manage bookings',
             'approve booking',
             'reject booking',
             'monitor cars',
             'view all booking history',
 
-            // CRUD USER (hanya admin)
+            // CRUD USER (ADMIN ONLY)
             'view users',
             'create users',
             'edit users',
@@ -48,7 +48,7 @@ class RolePermissionSeeder extends Seeder
 
         // === ROLES ===
 
-        // USER
+        // USER (PENUMPANG)
         $userRole = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
         $userRole->syncPermissions([
             'view dashboard',
@@ -64,8 +64,7 @@ class RolePermissionSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         $adminRole->syncPermissions([
             'view dashboard',
-            'manage all cars',
-            'manage all bookings',
+            'manage bookings',
             'approve booking',
             'reject booking',
             'monitor cars',

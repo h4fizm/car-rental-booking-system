@@ -39,10 +39,19 @@
                     </a>
                     <div class="collapse" id="collapsePesanan" aria-labelledby="headingPesanan" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="{{ route('mobil.diterima') }}">Status Diterima</a>
-                            <a class="nav-link" href="{{ route('mobil.pending') }}">Status Pending</a>
-                            <a class="nav-link" href="{{ route('mobil.ditolak') }}">Status Ditolak</a>
-                            <a class="nav-link" href="{{ route('mobil.tersedia') }}">Status Tersedia</a>
+                            @role('admin')
+                                <a class="nav-link" href="{{ route('admin.mobil.diterima') }}">Status Diterima</a>
+                                <a class="nav-link" href="{{ route('admin.mobil.pending') }}">Status Pending</a>
+                                <a class="nav-link" href="{{ route('admin.mobil.ditolak') }}">Status Ditolak</a>
+                                <a class="nav-link" href="{{ route('admin.mobil.tersedia') }}">Status Tersedia</a>
+                            @endrole
+
+                            @role('operator')
+                                <a class="nav-link" href="{{ route('operator.mobil.diterima') }}">Status Diterima</a>
+                                <a class="nav-link" href="{{ route('operator.mobil.pending') }}">Status Pending</a>
+                                <a class="nav-link" href="{{ route('operator.mobil.ditolak') }}">Status Ditolak</a>
+                                <a class="nav-link" href="{{ route('operator.mobil.tersedia') }}">Status Tersedia</a>
+                            @endrole
                         </nav>
                     </div>
                 @endhasanyrole

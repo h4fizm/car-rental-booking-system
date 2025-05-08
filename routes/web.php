@@ -10,25 +10,28 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
-
 // === ROUTE UNTUK USER (PENUMPANG) ===
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard
     Route::get('/user/dashboard', [DashboardController::class, 'userDashboard'])
         ->middleware('permission:view dashboard')
         ->name('user.dashboard');
 
+    // Daftar Mobil & Detail
     Route::get('/user/daftar-mobil', [CarController::class, 'showAvailableCars'])
         ->middleware('permission:view available cars')
         ->name('user.cars.list');
 
     Route::get('/user/car-category/{category}', [CarController::class, 'showCategoryCars'])
-        ->middleware('permission:view available cars') // Menambahkan middleware permission
+        ->middleware('permission:view available cars')
         ->name('user.car.category');
 
     Route::get('/car/{id}', [CarController::class, 'showDetail'])
         ->middleware('permission:view available cars')
         ->name('user.car.detail');
 
+    // Booking
     Route::get('/user/checkout/{car}', [BookingController::class, 'index'])
         ->middleware('permission:create booking')
         ->name('user.checkout');
@@ -41,32 +44,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('permission:view booking history')
         ->name('user.history');
 
-
-    Route::middleware(['auth', 'role:user', 'permission:edit own profile'])->group(function () {
-        // Tampilkan halaman profil mobile
+    // Profil
+    Route::middleware(['role:user', 'permission:edit own profile'])->group(function () {
         Route::get('/user/profil', [ProfileController::class, 'showMobileProfile'])
             ->name('user.profil');
 
-        // Proses update profil
         Route::post('/user/profil/update', [ProfileController::class, 'updateUserProfile'])
             ->name('user.profile.update');
     });
-
-
 });
 
 // === ROUTE UNTUK ADMIN ===
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
-    // Dashboard Admin
+    // Dashboard
     Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])
         ->middleware('permission:view dashboard')
         ->name('admin.dashboard');
 
-    // Manage Cars
+    // Mobil
     Route::prefix('admin')->group(function () {
 
-        // CRUD Cars
         Route::middleware('permission:monitor cars|manage all cars')->group(function () {
             Route::get('/cars', [CarController::class, 'index'])->name('admin.cars.index');
             Route::get('/create-car', [CarController::class, 'create'])->name('admin.cars.create');
@@ -76,22 +74,21 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             Route::delete('/cars/{id}', [CarController::class, 'destroy'])->name('admin.cars.destroy');
         });
 
-        // Preview car (khusus monitor)
         Route::get('/cars/{id}/preview', [CarController::class, 'preview'])
             ->middleware('permission:monitor cars')
             ->name('admin.cars.preview');
 
-        // ✅ Manage Bookings (tanpa nested middleware)
-        Route::prefix('/booking')->middleware('permission:manage all bookings')->group(function () {
-            Route::get('/tersedia', [BookingController::class, 'tersedia'])->name('mobil.tersedia');
-            Route::get('/pending', [BookingController::class, 'pending'])->name('mobil.pending');
-            Route::get('/diterima', [BookingController::class, 'diterima'])->name('mobil.diterima');
-            Route::get('/ditolak', [BookingController::class, 'ditolak'])->name('mobil.ditolak');
-            Route::post('/update-car-status/{car}', [BookingController::class, 'updateStatus'])->name('mobil.update.status');
+        // Booking
+        Route::prefix('/booking')->middleware('permission:manage bookings')->group(function () {
+            Route::get('/tersedia', [BookingController::class, 'tersedia'])->name('admin.mobil.tersedia');
+            Route::get('/pending', [BookingController::class, 'pending'])->name('admin.mobil.pending');
+            Route::get('/diterima', [BookingController::class, 'diterima'])->name('admin.mobil.diterima');
+            Route::get('/ditolak', [BookingController::class, 'ditolak'])->name('admin.mobil.ditolak');
+            Route::post('/update-car-status/{car}', [BookingController::class, 'updateStatus'])->name('admin.mobil.update.status');
         });
     });
 
-    // Admin Profile
+    // Profil Admin
     Route::prefix('admin/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])
             ->middleware('permission:edit own profile')
@@ -106,7 +103,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             ->name('admin.profile.destroy');
     });
 
-    // Manage Users
+    // Manajemen User
     Route::prefix('admin/users')->group(function () {
         Route::get('/', [UserController::class, 'index'])
             ->middleware('permission:view users|create users|edit users|delete users')
@@ -136,21 +133,22 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 // === ROUTE UNTUK OPERATOR ===
 Route::middleware(['auth', 'verified', 'role:operator'])->group(function () {
+
     // Dashboard
     Route::get('/operator/dashboard', [DashboardController::class, 'operatorDashboard'])
         ->middleware('permission:view dashboard')
         ->name('operator.dashboard');
 
-    // // Booking - hanya untuk yang punya permission 'manage bookings'
-    // Route::prefix('booking')->middleware('permission:manage bookings')->group(function () {
-    //     Route::get('/tersedia', [BookingController::class, 'tersedia'])->name('mobil.tersedia');
-    //     Route::get('/pending', [BookingController::class, 'pending'])->name('mobil.pending');
-    //     Route::get('/diterima', [BookingController::class, 'diterima'])->name('mobil.diterima');
-    //     Route::get('/ditolak', [BookingController::class, 'ditolak'])->name('mobil.ditolak');
-    //     Route::post('/update-car-status/{car}', [BookingController::class, 'updateStatus'])->name('mobil.update.status');
-    // });
+    // Booking
+    Route::prefix('/booking')->middleware('permission:manage bookings')->group(function () {
+        Route::get('/tersedia', [BookingController::class, 'tersedia'])->name('operator.mobil.tersedia');
+        Route::get('/pending', [BookingController::class, 'pending'])->name('operator.mobil.pending');
+        Route::get('/diterima', [BookingController::class, 'diterima'])->name('operator.mobil.diterima');
+        Route::get('/ditolak', [BookingController::class, 'ditolak'])->name('operator.mobil.ditolak');
+        Route::post('/update-car-status/{car}', [BookingController::class, 'updateStatus'])->name('operator.mobil.update.status');
+    });
 
-    // Profile
+    // Profil
     Route::prefix('operator/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])
             ->middleware('permission:edit own profile')
@@ -165,7 +163,6 @@ Route::middleware(['auth', 'verified', 'role:operator'])->group(function () {
             ->name('operator.profile.destroy');
     });
 });
-
 
 
 // First Link

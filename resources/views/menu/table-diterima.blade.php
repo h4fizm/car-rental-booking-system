@@ -31,18 +31,28 @@
                     </div>
 
                     <div class="mt-3 d-flex justify-content-end align-items-center gap-2">
-                        <form action="{{ route('mobil.update.status', $car->id) }}" method="POST" class="d-flex gap-2 align-items-center">
-                            @csrf
-                            <select name="status" class="form-select">
-                                @foreach (['Tersedia', 'Pending', 'Diterima', 'Ditolak'] as $status)
-                                    <option value="{{ $status }}" {{ strtolower($car->status) === strtolower($status) ? 'selected' : '' }}>
-                                        {{ $status }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        @hasanyrole('admin|operator')
+                            <form 
+                                action="{{ 
+                                    auth()->user()->hasRole('admin') 
+                                        ? route('admin.mobil.update.status', $car->id) 
+                                        : route('operator.mobil.update.status', $car->id) 
+                                }}" 
+                                method="POST" 
+                                class="d-flex gap-2 align-items-center"
+                            >
+                                @csrf
+                                <select name="status" class="form-select">
+                                    @foreach (['Tersedia', 'Pending', 'Diterima', 'Ditolak'] as $status)
+                                        <option value="{{ $status }}" {{ strtolower($car->status) === strtolower($status) ? 'selected' : '' }}>
+                                            {{ $status }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                            <button type="submit" class="btn btn-success">Simpan</button>
-                        </form>
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                            </form>
+                        @endhasanyrole
                     </div>
                 </div>
             </div>
