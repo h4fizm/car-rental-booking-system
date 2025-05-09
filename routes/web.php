@@ -10,6 +10,13 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
+
+require __DIR__ . '/auth.php';
+// First Link
+Route::get('/', function () {
+    return view('auth.login');
+});
+
 // === ROUTE UNTUK USER (PENUMPANG) ===
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -164,22 +171,14 @@ Route::middleware(['auth', 'verified', 'role:operator'])->group(function () {
     });
 });
 
-
-// First Link
-Route::get('/', function () {
-    return view('auth.login');
-});
-
 // SEMENTARA JANGAN DIHAPUS
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+// SAMPAI INI
+
+// Route Profil User/Admin/Operator
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-// SAMPAI INI
 
-require __DIR__ . '/auth.php';
